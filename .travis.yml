@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+language: java
+dist: bionic
+jdk:
+  - openjdk14
+cache:
+  directories:
+    - "$HOME/.m2"
+env:
+  global:
+    - DOCKER_IMAGE=selmah/rso-project/halal-place-catalog-api-v1-2:1.0-SNAPSHOT-$TRAVIS_JOB_NUMBER
+    - secure: IKW75Y45nSRass9aOYxnUfxzfeaUQXo2W1fN9MBId9+JysAlgjI5ZTV4aloAWTD6y5cC0/9CmHqqua91bDgEJfgc2soE0PFVGAimazmviIPd8thH3aCQJWTemTqBQWtHw70ZATY37+fTOQ1865eK06DKTG4cZ27vI4BncRnpzz+BSZBV51AEot52wy4TTEcNqNNha9+mpyD0efBZ+M9PIoiWzCn5+ny7AgnUwvc+sNtsXb+vgX8RY8uTnaF1NjJ3vQx/wwfo5gAwiT3+js4gDswX5gvZVs2rN9KUKnIQeaL+ubOQv0c5w/K2gkmDTIBckobDyGxLHXk0RGHieQET7Vdha9a136Fpf2ur7TZGdsy/X8HCJBhRG1Xc3yIWFU2WkzaHqq9/zpM76SYzpviloMmzNraLqhKpz95NWrqpnc2zc2qCi6lU7jxVv7fxlmgeb9ErLjRRuiTS3+B+prlS0zr881kkIRb/UiTQmFO4+TMJF/xUHOqcMpmAL9bC1GP86/nSl7vnkng6+IwKUHXNv5rbgyYRaXieCvYP8tS7JghKy6sUu65jariU9UaQgton5CWTBR1ff1nE4LHA7Zi8Q3YjI0jnPyvVn8HP15GYBzvitKaq9vS7DgcQ4QtuJ9GPtqxBy4v2+nzkOEb66ceh2zeHIP6explFbr6n/eKpp4o=
+    - secure: OfoOo0gNHfOikYWS5zEws75NIH8U6GeNFPcoI4XVjmom2p2Y8OTRSjUxeBOvQRrBoqWOxJSoNOJfUrO19Rvyia8/Mh3j0ZeTLGbFkFhlLmT5dqLU6QfyndNlz7gpfxwjKqo9BswtxntK4ncPiyjGDnxHm+I5ZRVhHcTpRZwM/Sp6j2JlKQJgoUtvu8JRUq2QT/iV/9Hc7ltq8ny/0Ip8RxI1fG+w8l+G6TR3igLA2XlJYsc20cHKtX5h1xHagT/UQJYjXf6A9gLWKrbPjDuC4xRvYVGD2zI6VRW7qAwND9KIl2u/G0btagoQ0Ib5h64XYJf38gPQr22jaZt5ftCJi3NOYdrRdNcR9hpHPLVmJmonX9hOQXY1PRvz2ptC/MemYNfj3P8IDsJgxZEgHccbBGRNMDgnsIy8DVNsRx+5gnCEA/9usNw/oEDDlJ3xIUSWyMgwKRk0T//J9aIgVV2IN7qQR2sUJrsp+PWa2xmdUWKzzqGVR1SahtQYi23fWMYr60nFFRH1GmK4hjlkvP9nIZ6/LjoTgxOr8ALNnpE81FC9FBvvCQVopknOzhl7Dwt4g5lAsWGav3mN+Am/MldpL9RGD1oxgIPBM72kZGkwf/GvSWWDANkSBraWsoT/QsS1vUiUX5jsuGFOpImM9N0uA6JaOhMgiB5c6m7CUe/eZ70=
+script:
+  - mvn clean package -U
+  - docker build -t "$DOCKER_IMAGE" .
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push "$DOCKER_IMAGE"
