@@ -1,0 +1,17 @@
+kumuluzee:
+  name: halal-place-catalog-service
+  env:
+    name: dev
+  version: 1.0
+  server:
+    base-url: https://localhost:8080
+    http:
+      port: 8080
+  datasources:
+    - jndi-name: jdbc/HalalPlaceMetadataDS
+      connection-url: jdbc:postgresql://localhost:5432/halal_place_metadata
+      max-pool-size: 20
+  rest-properties:
+    maintenance-mode: false
+
+

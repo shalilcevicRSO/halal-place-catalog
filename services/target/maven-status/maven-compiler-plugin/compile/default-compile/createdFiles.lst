@@ -1,0 +1,4 @@
+com\selma\halal\food\project\services\beans\HalalPlaceMetadataBean.class
+com\selma\halal\food\project\App.class
+com\selma\halal\food\project\config\RestProperties.class
+com\selma\halal\food\project\services\producers\PersistenceProducer.class
