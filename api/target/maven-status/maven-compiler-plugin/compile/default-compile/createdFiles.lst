@@ -1,4 +1,3 @@
 com\selma\halal\food\project\api\v1\dtos\ApiError.class
 com\selma\halal\food\project\api\v1\HalalPlaceMetadataApplication.class
 com\selma\halal\food\project\api\v1\resources\HalalPlaceMetadataResource.class
-com\selma\halal\food\project\App.class
