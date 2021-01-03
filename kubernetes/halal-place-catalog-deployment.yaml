@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: halal-place-catalog-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: halal-place-catalog
+  template:
+    metadata:
+      labels:
+        app: halal-place-catalog
+    spec:
+      containers:
+        - image: selmah/rso-project:halal-place-catalog-api-v1-03-01-2021
+          name: halal-place-catalog
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://suleiman.db.elephantsql.com:5432/gegqziaq
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: gegqziaq
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              value: RMNRyMoKcRWdLtfUSOp_96M0U0F9B6IB
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: halal-place-catalog
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: halal-place-catalog
