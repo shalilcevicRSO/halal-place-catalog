@@ -20,21 +20,21 @@ public class HealthDemoResource {
     @Inject
     private RestProperties restProperties;
 
-    @GET
-    @Path("/break")
-    public Response getUnhealthy() {
-
-        Boolean broken = restProperties.getBroken();
-
-        return Response.status(Response.Status.OK).entity(broken).build();
-
-    }
+//    @GET
+//    @Path("/break")
+//    public Response getUnhealthy() {
+//
+//        Boolean broken = restProperties.getBroken();
+//
+//        return Response.status(Response.Status.OK).entity(broken).build();
+//
+//    }
 
     @POST
     @Path("/break")
     public Response makeUnhealthy() {
         restProperties.setBroken(true);
 
-        return Response.status(Response.Status.OK).entity(restProperties.getBroken()).build();
+        return Response.status(Response.Status.OK).build();
     }
 }
