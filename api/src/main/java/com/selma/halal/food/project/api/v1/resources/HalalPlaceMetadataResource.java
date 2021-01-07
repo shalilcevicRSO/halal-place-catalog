@@ -2,6 +2,8 @@ package com.selma.halal.food.project.api.v1.resources;
 
 import com.selma.halal.food.project.services.beans.HalalPlaceMetadataBean;
 import com.selma.halal.food.project.lib.HalalPlaceMetadata;
+import org.eclipse.microprofile.metrics.Meter;
+import org.eclipse.microprofile.metrics.annotation.Metric;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -32,8 +34,31 @@ public class HalalPlaceMetadataResource {
     @Context
     protected UriInfo uriInfo;
 
+    @Inject
+    @Metric(name = "all_places_request_meter")
+    private Meter all_places_request_meter;
+
+    @Inject
+    @Metric(name = "create_new_place_meter")
+    private Meter create_new_place_meter;
+
+    @GET
+    @Path("allPlacesRequests")
+    public Response getAllPlacesRequestsMeter() {
+        return Response.ok(all_places_request_meter).build();
+    }
+
+    @GET
+    @Path("createNewPlaceMeter")
+    public Response getCreateNewPlaceMeter() {
+        return Response.ok(create_new_place_meter).build();
+    }
+
+
     @GET
     public Response getHalalPlaceMetadata() {
+
+        all_places_request_meter.mark();
 
         List<HalalPlaceMetadata> halalPlaceMetadata = halalPlaceMetadataBean.getHalalPlaceMetadataFilter(uriInfo);
 
@@ -56,6 +81,8 @@ public class HalalPlaceMetadataResource {
 
     @POST
     public Response createHalalPlaceMetadata(HalalPlaceMetadata halalPlaceMetadata) {
+
+        create_new_place_meter.mark();
 
         if ((halalPlaceMetadata.getPlaceName() == null || halalPlaceMetadata.getCity() == null || halalPlaceMetadata.getCountry() == null)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
