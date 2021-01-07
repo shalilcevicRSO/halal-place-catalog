@@ -13,6 +13,7 @@ public class RestProperties {
     @ConfigValue(watch = true)
     private Boolean maintenanceMode;
 
+    @ConfigValue(watch = true)
     private Boolean broken;
 
     public Boolean getMaintenanceMode() {
