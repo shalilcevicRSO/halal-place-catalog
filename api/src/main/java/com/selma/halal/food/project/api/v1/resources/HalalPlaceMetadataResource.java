@@ -1,5 +1,6 @@
 package com.selma.halal.food.project.api.v1.resources;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.selma.halal.food.project.services.beans.HalalPlaceMetadataBean;
 import com.selma.halal.food.project.lib.HalalPlaceMetadata;
 import org.eclipse.microprofile.metrics.Meter;
@@ -24,6 +25,7 @@ import java.util.logging.Logger;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/places")
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, DELETE, OPTIONS")
 public class HalalPlaceMetadataResource {
 
     private Logger log = Logger.getLogger(HalalPlaceMetadataResource.class.getName());

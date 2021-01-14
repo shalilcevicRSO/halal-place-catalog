@@ -163,6 +163,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.kumuluz.ee.cors</groupId>
+                <artifactId>kumuluzee-cors</artifactId>
+                <version>${kumuluzee-cors.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.selma.halal.food.project</groupId>
                 <artifactId>halal-place-catalog-api</artifactId>
                 <version>${project.version}</version>
