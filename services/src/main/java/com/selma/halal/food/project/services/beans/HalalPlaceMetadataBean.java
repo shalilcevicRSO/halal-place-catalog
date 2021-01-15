@@ -7,6 +7,7 @@ import com.selma.halal.food.project.models.converters.HalalPlaceMetadataConverte
 import com.selma.halal.food.project.models.entities.HalalPlaceMetadataEntity;
 import com.selma.halal.food.project.services.producers.PersistenceProducer;
 import com.selma.halal.food.project.services.producers.PersistenceProducer.*;
+import org.glassfish.jersey.server.Uri;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -17,9 +18,14 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+//import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+//import org.eclipse.microprofile.faulttolerance.Fallback;
+//import org.eclipse.microprofile.faulttolerance.Timeout;
+//import org.eclipse.microprofile.metrics.annotation.Timed;
 
 @RequestScoped
 public class HalalPlaceMetadataBean {
@@ -145,6 +151,29 @@ public class HalalPlaceMetadataBean {
             em.getTransaction().rollback();
         }
     }
+
+//    @Timeout(value = 2, unit = ChronoUnit.SECONDS)
+//    @CircuitBreaker(requestVolumeThreshold = 3)
+//    @Fallback(fallbackMethod = "getImagesFallback")
+//    public List<HalalPlaceMetadata> getImages(Integer id) {
+//
+//        try {
+//            return httpClient
+//                    .target(baseUrl + "/v1/images/")
+//                    .queryParam("imageId", imageId)
+//                    .request().get(new GenericType<Integer>() {
+//                    });
+//        }
+//        catch (WebApplicationException | ProcessingException e) {
+//            log.severe(e.getMessage());
+//            throw new InternalServerErrorException(e);
+//        }
+//    }
+//
+//    public Integer getImagesFallback(Integer imageId) {
+//        return null;
+//    }
+//    }
 
 
 

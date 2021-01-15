@@ -16,11 +16,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Logger;
+//import com.kumuluz.ee.logs.cdi.Log;
+//import com.kumuluz.ee.discovery.annotations.DiscoverService;
 
 
 //@ApplicationScoped
+//@Log
 @RequestScoped
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,6 +39,11 @@ public class HalalPlaceMetadataResource {
 
     @Context
     protected UriInfo uriInfo;
+
+//    private AddNewPlaceApi addNewPlaceApiApi;
+//
+//    @DiscoverService("add-new-place-service")
+//    private URI addNewPlaceServiceUrl;
 
     @Inject
     @Metric(name = "all_places_request_meter")
