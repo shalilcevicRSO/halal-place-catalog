@@ -16,10 +16,10 @@ public class HalalPlaceMetadataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer placeId;
+    private Integer id;
 
     @Column(name = "placeName")
-    private String placeName;
+    private String name;
 
     @Column(name = "streetName")
     private String streetName;
@@ -37,7 +37,7 @@ public class HalalPlaceMetadataEntity {
     private String country;
 
     @Column(name = "placeType")
-    private String placeType;
+    private String type;
 
     @Column(name = "description")
     private String description;
@@ -49,17 +49,17 @@ public class HalalPlaceMetadataEntity {
     private String uri;
 
 
-    public Integer getPlaceId() { return placeId; }
+    public Integer getPlaceId() { return id; }
 
-    public void setPlaceId(Integer placeId) { this.placeId = placeId; }
+    public void setPlaceId(Integer placeId) { this.id = placeId; }
 
-    public String getPlaceName() { return placeName; }
+    public String getPlaceName() { return name; }
 
-    public void setPlaceName(String placeName) { this.placeName = placeName; }
+    public void setPlaceName(String placeName) { this.name = placeName; }
 
-    public String getPlaceType() { return placeType; }
+    public String getPlaceType() { return type; }
 
-    public void setPlaceType(String placeType) { this.placeType = placeType; }
+    public void setPlaceType(String placeType) { this.type = placeType; }
 
     public String getDescription() { return description; }
 

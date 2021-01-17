@@ -1,5 +1,6 @@
 package com.selma.halal.food.project.services.beans;
 
+import com.kumuluz.ee.jpa.common.jta.SyncEntityManagerWrapper;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.selma.halal.food.project.lib.HalalPlaceMetadata;
@@ -8,6 +9,9 @@ import com.selma.halal.food.project.models.entities.HalalPlaceMetadataEntity;
 import com.selma.halal.food.project.services.producers.PersistenceProducer;
 import com.selma.halal.food.project.services.producers.PersistenceProducer.*;
 import org.glassfish.jersey.server.Uri;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -150,6 +154,31 @@ public class HalalPlaceMetadataBean {
         if (em.getTransaction().isActive()) {
             em.getTransaction().rollback();
         }
+    }
+
+
+    public HalalPlaceMetadata getSearchHalalPlaceMetadata(String city, String country) {
+
+        HalalPlaceMetadataEntity halalPlaceMetadataEntity_city = em.createQuery(
+                "SELECT u from HalalPlaceMetadataEntity u WHERE u.city = :city", HalalPlaceMetadataEntity.class)
+                .setParameter("city", city).getSingleResult();
+
+
+
+
+        if (halalPlaceMetadataEntity_city == null) {
+            throw new NotFoundException();
+        }
+
+        if (!halalPlaceMetadataEntity_city.getCountry().equals(country)) {
+            throw new NotFoundException();
+        }
+
+        HalalPlaceMetadata halalPlaceMetadata = HalalPlaceMetadataConverter
+                .toDto(halalPlaceMetadataEntity_city);
+
+        return halalPlaceMetadata;
+
     }
 
 //    @Timeout(value = 2, unit = ChronoUnit.SECONDS)
