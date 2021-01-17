@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: halal-place-catalog-deployment
+  name: halal-place-catalog
 spec:
   replicas: 1
   selector:
@@ -23,7 +23,7 @@ spec:
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               value: RMNRyMoKcRWdLtfUSOp_96M0U0F9B6IB
           ports:
-            - containerPort: 8080
+            - containerPort: 80
               name: server
               protocol: TCP
 
@@ -34,9 +34,9 @@ kind: Service
 metadata:
   name: halal-place-catalog
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
-    - port: 8080
+    - port: 80
       protocol: TCP
       targetPort: server
   selector:
