@@ -23,21 +23,15 @@ spec:
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               value: RMNRyMoKcRWdLtfUSOp_96M0U0F9B6IB
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: server
               protocol: TCP
-#          livenessProbe:
-#            httpGet:
-#              path: /health/live
-#              port: server
-#            initialDelaySeconds: 30
-#            periodSeconds: 3
-#          readinessProbe:
-#            httpGet:
-#              path: /health/ready
-#              port: server
-#            initialDelaySeconds: 30
-#            periodSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 5
 
 ---
 
@@ -46,9 +40,9 @@ kind: Service
 metadata:
   name: halal-place-catalog
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
-    - port: 80
+    - port: 8080
       protocol: TCP
       targetPort: server
   selector:

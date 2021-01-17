@@ -4,6 +4,7 @@ import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.selma.halal.food.project.api.v1.health.HealthCheckClass;
 import com.selma.halal.food.project.services.beans.HalalPlaceMetadataBean;
 import com.selma.halal.food.project.lib.HalalPlaceMetadata;
 import org.eclipse.microprofile.metrics.Meter;
@@ -40,12 +41,17 @@ public class HalalPlaceMetadataResource {
     protected UriInfo uriInfo;
 
     @Inject
+    private HealthCheckClass healthCheck;
+
+    @Inject
     @Metric(name = "all_places_request_meter")
     private Meter all_places_request_meter;
 
     @Inject
     @Metric(name = "create_new_place_meter")
     private Meter create_new_place_meter;
+
+    // METRICS
 
     @GET
     @Path("allPlacesRequests")
@@ -58,6 +64,25 @@ public class HalalPlaceMetadataResource {
     public Response getCreateNewPlaceMeter() {
         return Response.ok(create_new_place_meter).build();
     }
+
+
+    // HEALTH CHECKS
+    @GET
+    @Path("/healthy")
+    public Response getHealthyStatus(){
+
+        boolean healthy = healthCheck.isHealthy();
+
+        return Response.status(Response.Status.OK).entity(healthy).build();
+    }
+    @POST
+    @Path("/healthy")
+    public Response setHealthyStatus(Boolean healthy){
+
+        healthCheck.setHealthy(healthy);
+        return Response.status(Response.Status.OK).entity(healthy).build();
+    }
+
 
 
     @GET
