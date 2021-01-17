@@ -9,15 +9,26 @@ kumuluzee:
       port: 8080
   datasources:
     - jndi-name: jdbc/HalalPlaceMetadataDS
-      #connection-url: jdbc:postgresql://localhost:5432/halal_place_metadata
-      connection-url: jdbc:postgresql://suleiman.db.elephantsql.com:5432/gegqziaq
-      username: gegqziaq
-      password: RMNRyMoKcRWdLtfUSOp_96M0U0F9B6IB
-      #username: postgres
-      #password: projectRSOhFood
-      max-pool-size: 20
+      connection-url: jdbc:postgresql://localhost:5432/halal_place_metadata
+      #connection-url: jdbc:postgresql://suleiman.db.elephantsql.com:5432/gegqziaq
+      #username: gegqziaq
+      #password: RMNRyMoKcRWdLtfUSOp_96M0U0F9B6IB
+      username: postgres
+      password: projectRSOhFood
+      #max-pool-size: 20
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/HalalPlaceMetadataDS
+  metrics:
+    web-instrumentation:
+      - name: places-endpoint
+        url-pattern: /v1/places/*
   rest-properties:
     maintenance-mode: false
+    broken: false
+
 
 
 # docker run -d --name pg-halal-place-metadata -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=projectRSOhFood -e POSTGRES_DB=halal_place_metadata -p 5432:5432 postgres:13

@@ -26,6 +26,18 @@ spec:
             - containerPort: 80
               name: server
               protocol: TCP
+#          livenessProbe:
+#            httpGet:
+#              path: /health/live
+#              port: server
+#            initialDelaySeconds: 30
+#            periodSeconds: 3
+#          readinessProbe:
+#            httpGet:
+#              path: /health/ready
+#              port: server
+#            initialDelaySeconds: 30
+#            periodSeconds: 3
 
 ---
 

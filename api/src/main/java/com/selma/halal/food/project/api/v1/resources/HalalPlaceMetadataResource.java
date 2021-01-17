@@ -1,7 +1,10 @@
 package com.selma.halal.food.project.api.v1.resources;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.selma.halal.food.project.services.beans.HalalPlaceMetadataBean;
 import com.selma.halal.food.project.lib.HalalPlaceMetadata;
+import org.eclipse.microprofile.metrics.Meter;
+import org.eclipse.microprofile.metrics.annotation.Metric;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -13,15 +16,20 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Logger;
+//import com.kumuluz.ee.logs.cdi.Log;
+//import com.kumuluz.ee.discovery.annotations.DiscoverService;
 
 
 //@ApplicationScoped
+//@Log
 @RequestScoped
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/places")
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, DELETE, OPTIONS")
 public class HalalPlaceMetadataResource {
 
     private Logger log = Logger.getLogger(HalalPlaceMetadataResource.class.getName());
@@ -32,8 +40,36 @@ public class HalalPlaceMetadataResource {
     @Context
     protected UriInfo uriInfo;
 
+//    private AddNewPlaceApi addNewPlaceApiApi;
+//
+//    @DiscoverService("add-new-place-service")
+//    private URI addNewPlaceServiceUrl;
+
+    @Inject
+    @Metric(name = "all_places_request_meter")
+    private Meter all_places_request_meter;
+
+    @Inject
+    @Metric(name = "create_new_place_meter")
+    private Meter create_new_place_meter;
+
+    @GET
+    @Path("allPlacesRequests")
+    public Response getAllPlacesRequestsMeter() {
+        return Response.ok(all_places_request_meter).build();
+    }
+
+    @GET
+    @Path("createNewPlaceMeter")
+    public Response getCreateNewPlaceMeter() {
+        return Response.ok(create_new_place_meter).build();
+    }
+
+
     @GET
     public Response getHalalPlaceMetadata() {
+
+        all_places_request_meter.mark();
 
         List<HalalPlaceMetadata> halalPlaceMetadata = halalPlaceMetadataBean.getHalalPlaceMetadataFilter(uriInfo);
 
@@ -56,6 +92,8 @@ public class HalalPlaceMetadataResource {
 
     @POST
     public Response createHalalPlaceMetadata(HalalPlaceMetadata halalPlaceMetadata) {
+
+        create_new_place_meter.mark();
 
         if ((halalPlaceMetadata.getPlaceName() == null || halalPlaceMetadata.getCity() == null || halalPlaceMetadata.getCountry() == null)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
