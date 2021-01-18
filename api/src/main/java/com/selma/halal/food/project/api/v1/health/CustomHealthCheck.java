@@ -6,7 +6,7 @@ import org.eclipse.microprofile.health.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-
+@Liveness
 @ApplicationScoped
 public class CustomHealthCheck implements HealthCheck {
 
