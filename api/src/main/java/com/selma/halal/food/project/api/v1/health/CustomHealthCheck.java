@@ -1,5 +1,6 @@
 package com.selma.halal.food.project.api.v1.health;
 
+import com.selma.halal.food.project.config.RestProperties;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Liveness;
@@ -13,22 +14,16 @@ import javax.inject.Inject;
 public class CustomHealthCheck implements HealthCheck {
 
     @Inject
-    private HealthCheckClass healthCheck;
+    private RestProperties restProperties;
 
     @Override
     public HealthCheckResponse call() {
-        try {
-            if (healthCheck.isHealthy()) {
-                System.out.println("Up");
-                return HealthCheckResponse.named(CustomHealthCheck.class.getSimpleName()).up().build();
-
-            } else {
-                System.out.println("Down");
-                return HealthCheckResponse.named(CustomHealthCheck.class.getSimpleName()).down().build();
-            }
-        } catch (Exception e) {
-            System.out.println("Exception occured in CustomHealthCheck.");
+        if (restProperties.isBroken()) {
+            return HealthCheckResponse.named(CustomHealthCheck.class.getSimpleName()).down().build();
         }
-        return HealthCheckResponse.named(CustomHealthCheck.class.getSimpleName()).down().build();
+        else {
+            return HealthCheckResponse.named(CustomHealthCheck.class.getSimpleName()).up().build();
+        }
     }
+
 }

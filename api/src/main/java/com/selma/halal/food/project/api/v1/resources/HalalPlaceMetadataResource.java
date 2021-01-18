@@ -5,6 +5,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.selma.halal.food.project.api.v1.health.HealthCheckClass;
+import com.selma.halal.food.project.config.RestProperties;
 import com.selma.halal.food.project.services.beans.HalalPlaceMetadataBean;
 import com.selma.halal.food.project.lib.HalalPlaceMetadata;
 import org.eclipse.microprofile.metrics.Meter;
@@ -40,8 +41,9 @@ public class HalalPlaceMetadataResource {
     @Context
     protected UriInfo uriInfo;
 
+
     @Inject
-    private HealthCheckClass healthCheck;
+    private RestProperties healthCheck;
 
     @Inject
     @Metric(name = "all_places_request_meter")
@@ -71,16 +73,24 @@ public class HalalPlaceMetadataResource {
     @Path("/healthy")
     public Response getHealthyStatus(){
 
-        boolean healthy = healthCheck.isHealthy();
+        boolean healthy = healthCheck.isBroken();
 
-        return Response.status(Response.Status.OK).entity(healthy).build();
+        return Response.status(Response.Status.OK).entity(!healthy).build();
     }
-    @POST
-    @Path("/healthy")
-    public Response setHealthyStatus(Boolean healthy){
+    @GET
+    @Path("/healthy/break")
+    public Response makeServiceUnhealthy(){
 
-        healthCheck.setHealthy(healthy);
-        return Response.status(Response.Status.OK).entity(healthy).build();
+        healthCheck.setBroken(true);
+        return Response.status(Response.Status.OK).entity(true).build();
+    }
+
+    @GET
+    @Path("/healthy/up")
+    public Response makeServiceHealthy(){
+
+        healthCheck.setBroken(false);
+        return Response.status(Response.Status.OK).entity(!healthCheck.isBroken()).build();
     }
 
 

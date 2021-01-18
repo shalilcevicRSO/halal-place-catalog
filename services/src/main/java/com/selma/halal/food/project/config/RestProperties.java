@@ -26,7 +26,7 @@ public class RestProperties {
         this.maintenanceMode = maintenanceMode;
     }
 
-    public Boolean getBroken() {
+    public Boolean isBroken() {
         return broken;
     }
 
