@@ -14,6 +14,9 @@ kumuluzee:
       password: projectRSOhFood
       max-pool-size: 20
   health:
+    servlet:
+      mapping: /healthy
+      enabled: true
     checks:
       data-source-health-check:
         type: liveness

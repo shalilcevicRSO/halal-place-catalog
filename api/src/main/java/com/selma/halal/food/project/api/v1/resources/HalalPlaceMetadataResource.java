@@ -1,9 +1,11 @@
 package com.selma.halal.food.project.api.v1.resources;
 
 import com.kumuluz.ee.cors.annotations.CrossOrigin;
+import com.kumuluz.ee.health.HealthRegistry;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.selma.halal.food.project.api.v1.health.CustomHealthCheck;
 import com.selma.halal.food.project.api.v1.health.HealthCheckClass;
 import com.selma.halal.food.project.config.RestProperties;
 import com.selma.halal.food.project.services.beans.HalalPlaceMetadataBean;
