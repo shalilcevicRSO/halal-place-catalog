@@ -27,6 +27,12 @@ kumuluzee:
     web-instrumentation:
       - name: places-endpoint
         url-pattern: /v1/places/*
+  graphql:
+    schema:
+      base-packages:
+        - com.selma.halal.food.project.graphql
+        - com.selma.halal.food.project.lib.HalalPlaceMetadata
+        - com.selma.halal.food.project.services.beans.HalalPlaceMetadataBean
   rest-properties:
     maintenance-mode: false
     broken: false
