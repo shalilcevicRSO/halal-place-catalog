@@ -16,10 +16,7 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
+import java.util.List;
 
 @GraphQLClass
 @ApplicationScoped
@@ -28,11 +25,9 @@ public class HalalPlaceMetadataQueries {
     private HalalPlaceMetadataBean halalPlaceMetadataBean;
 
     @GraphQLQuery
-    public PaginationWrapper<HalalPlaceMetadata> allHalalPlaceMetadata(@GraphQLArgument(name = "pagination") Pagination pagination,
-                                                                  @GraphQLArgument(name = "sort") Sort sort,
-                                                                  @GraphQLArgument(name = "filter") Filter filter) {
+    public List<HalalPlaceMetadata> allHalalPlaceMetadata() {
 
-        return GraphQLUtils.process(halalPlaceMetadataBean.getHalalPlaceMetadata(), pagination, sort, filter);
+        return halalPlaceMetadataBean.getHalalPlaceMetadata();
     }
 
     @GraphQLQuery
